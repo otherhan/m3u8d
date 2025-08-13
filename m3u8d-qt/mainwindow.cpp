@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->label_mergeProgressBar->setText(QString::fromStdString(resp.Title));
         }
     });
-    m_timer->start(50);
+    m_timer->start(200);  // 从50ms改为200ms，减少UI更新频率
     this->updateDownloadUi(false);
     this->updateMergeUi(false);
 
@@ -87,6 +87,7 @@ void MainWindow::on_pushButton_RunDownload_clicked()
     req.DebugLog = ui->checkBox_DebugLog->isChecked();
     req.WithSkipLog = ui->checkBox_WithSkipLog->isChecked();
     req.UseServerSideTime = ui->checkBox_UseServerSideTime->isChecked();
+    req.ProgressBarShow = true;  // 启用进度条优化，提升下载性能
 
     std::string errMsg = StartDownload(req);
     if(!errMsg.empty()) {
